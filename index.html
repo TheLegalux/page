@@ -1,0 +1,1260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Legalux - Your free legal AI assistant</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: #343a40;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, #1a2a6c, #3a6186);
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            color: #4ecca3;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 30px;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: #4ecca3;
+        }
+        
+        .account-status {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px 15px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+        }
+        
+        .account-status i {
+            margin-right: 8px;
+        }
+        
+        .status-free {
+            color: #ffdd00;
+        }
+        
+        .status-premium {
+            color: #4ecca3;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #4ecca3;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            text-align: center;
+        }
+        
+        .btn:hover {
+            background-color: #3da58a;
+            transform: translateY(-2px);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #4ecca3;
+            color: #4ecca3;
+        }
+        
+        .btn-outline:hover {
+            background-color: #4ecca3;
+            color: white;
+        }
+        
+        .btn-large {
+            padding: 15px 30px;
+            font-size: 18px;
+        }
+        
+        /* Hero Section */
+        .hero {
+            padding: 80px 0;
+            text-align: center;
+            background: white;
+        }
+        
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: #1a2a6c;
+        }
+        
+        .hero p {
+            font-size: 20px;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            color: #495057;
+        }
+        
+        /* Auth Forms */
+        .auth-section {
+            display: none;
+            padding: 60px 0;
+            background: #f1f8ff;
+        }
+        
+        .auth-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .auth-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            width: 100%;
+            max-width: 450px;
+        }
+        
+        .auth-tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        .auth-tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            font-weight: 500;
+            color: #6c757d;
+            border-bottom: 3px solid transparent;
+        }
+        
+        .auth-tab.active {
+            color: #1a2a6c;
+            border-bottom: 3px solid #4ecca3;
+        }
+        
+        .auth-form {
+            display: none;
+        }
+        
+        .auth-form.active {
+            display: block;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #343a40;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        /* Main App */
+        .app-container {
+            display: none;
+            padding: 20px 0;
+        }
+        
+        .app-layout {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .sidebar {
+            width: 250px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        
+        .sidebar-menu {
+            list-style: none;
+        }
+        
+        .sidebar-menu li {
+            margin-bottom: 10px;
+        }
+        
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            color: #343a40;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: background-color 0.3s;
+        }
+        
+        .sidebar-menu a:hover {
+            background-color: #f1f8ff;
+        }
+        
+        .sidebar-menu i {
+            margin-right: 10px;
+            color: #1a2a6c;
+        }
+        
+        .main-content {
+            flex: 1;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .chat-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .chat-header {
+            background: #1a2a6c;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: #f8f9fa;
+            min-height: 400px;
+        }
+        
+        .message {
+            margin-bottom: 15px;
+            padding: 12px 15px;
+            border-radius: 8px;
+            max-width: 80%;
+        }
+        
+        .ai-message {
+            background: #e9ecef;
+            color: #343a40;
+            border-bottom-left-radius: 2px;
+        }
+        
+        .user-message {
+            background: #1a2a6c;
+            color: white;
+            margin-left: auto;
+            border-bottom-right-radius: 2px;
+        }
+        
+        .chat-input {
+            display: flex;
+            padding: 15px;
+            background: white;
+            border-top: 1px solid #dee2e6;
+        }
+        
+        .chat-input input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+        
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 500px;
+            padding: 30px;
+            position: relative;
+            text-align: center;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #6c757d;
+        }
+        
+        .modal-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+        
+        .error-icon {
+            color: #dc3545;
+        }
+        
+        .success-icon {
+            color: #28a745;
+        }
+        
+        .info-icon {
+            color: #17a2b8;
+        }
+        
+        /* Pricing Section */
+        .pricing-section {
+            display: none;
+            padding: 40px 0;
+        }
+        
+        .pricing-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .pricing-cards {
+            display: flex;
+            gap: 30px;
+            margin-top: 30px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .pricing-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            width: 100%;
+            max-width: 350px;
+            position: relative;
+        }
+        
+        .current-plan-badge {
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            background: #4ecca3;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .pricing-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .price {
+            font-size: 36px;
+            color: #1a2a6c;
+            margin: 10px 0;
+        }
+        
+        .price span {
+            font-size: 16px;
+            color: #6c757d;
+        }
+        
+        .pricing-features {
+            list-style: none;
+            margin: 20px 0;
+        }
+        
+        .pricing-features li {
+            margin-bottom: 10px;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .pricing-features li:before {
+            content: "✓";
+            color: #4ecca3;
+            position: absolute;
+            left: 0;
+        }
+        
+        /* Law Firms Portal */
+        .portal-section {
+            display: none;
+            padding: 40px 0;
+        }
+        
+        .portal-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .filters {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        
+        .filter-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .filter-group {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .filter-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .filter-group select, .filter-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+        }
+        
+        .law-firms-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .law-firm-card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            transition: transform 0.3s;
+        }
+        
+        .law-firm-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .firm-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .firm-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #1a2a6c;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            margin-right: 15px;
+        }
+        
+        .firm-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a2a6c;
+        }
+        
+        .firm-details {
+            margin-bottom: 15px;
+        }
+        
+        .firm-detail {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            color: #495057;
+        }
+        
+        .firm-detail i {
+            margin-right: 10px;
+            color: #4ecca3;
+        }
+        
+        .firm-price {
+            font-weight: 600;
+            color: #1a2a6c;
+            font-size: 18px;
+            margin: 10px 0;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 36px;
+            }
+            
+            .hero p {
+                font-size: 18px;
+            }
+            
+            .app-layout {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+            
+            .filter-row {
+                flex-direction: column;
+            }
+            
+            .pricing-cards {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <i class="fas fa-balance-scale"></i>
+                    <span>Legalux AI</span>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="#" id="nav-home">Home</a></li>
+                    <li><a href="#" id="nav-features">Features</a></li>
+                    <li><a href="#" id="nav-pricing">Pricing</a></li>
+                </ul>
+                <div class="account-status" id="account-status">
+                    <i class="fas fa-user-circle"></i>
+                    <span>Status: <span class="status-free">Legalux Free</span></span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero-section">
+        <div class="container">
+            <h1>AI-Powered Legal Guidance at Your Fingertips</h1>
+            <p>Get instant answers about legal matters and connect with trusted law firms when you need professional representation.</p>
+            <a href="#" class="btn btn-large" id="get-started-btn">Get Started</a>
+        </div>
+    </section>
+
+    <!-- Auth Section -->
+    <section class="auth-section" id="auth-section">
+        <div class="container auth-container">
+            <div class="auth-card">
+                <div class="auth-tabs">
+                    <div class="auth-tab active" id="login-tab">Login</div>
+                    <div class="auth-tab" id="signup-tab">Create Account</div>
+                </div>
+                
+                <div class="auth-form active" id="login-form">
+                    <div class="form-group">
+                        <label for="login-email">Email</label>
+                        <input type="email" id="login-email" placeholder="Enter your email">
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Password</label>
+                        <input type="password" id="login-password" placeholder="Enter your password">
+                    </div>
+                    <button class="btn" id="login-btn">Login</button>
+                </div>
+                
+                <div class="auth-form" id="signup-form">
+                    <div class="form-group">
+                        <label for="signup-name">Full Name</label>
+                        <input type="text" id="signup-name" placeholder="Enter your full name">
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-email">Email</label>
+                        <input type="email" id="signup-email" placeholder="Enter your email">
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-password">Password</label>
+                        <input type="password" id="signup-password" placeholder="Create a password">
+                    </div>
+                    <button class="btn" id="signup-btn">Create Account</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="app-container" id="app-container">
+        <div class="container">
+            <div class="app-layout">
+                <div class="sidebar">
+                    <ul class="sidebar-menu">
+                        <li><a href="#" id="menu-chat"><i class="fas fa-comment-dots"></i> AI Chat</a></li>
+                        <li><a href="#" id="menu-law-firm"><i class="fas fa-building"></i> Request Law Firm</a></li>
+                        <li><a href="#" id="menu-lawyer"><i class="fas fa-user-tie"></i> Request Lawyer</a></li>
+                        <li><a href="#" id="menu-premium"><i class="fas fa-crown"></i> Upgrade to Premium</a></li>
+                        <li><a href="#" id="menu-logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                    </ul>
+                </div>
+                
+                <div class="main-content">
+                    <div class="chat-container" id="chat-container">
+                        <div class="chat-header">
+                            <h3>Legal AI Assistant</h3>
+                        </div>
+                        <div class="chat-messages" id="chat-messages">
+                            <div class="message ai-message">
+                                Hello! My name is Lilux. How can I help you today?
+                            </div>
+                        </div>
+                        <div class="chat-input">
+                            <input type="text" id="chat-input" placeholder="Type your message here...">
+                            <button class="btn" id="send-btn">Send</button>
+                        </div>
+                    </div>
+                    
+                    <div class="portal-section" id="law-firm-portal">
+                        <div class="portal-header">
+                            <h2>Connect with Trusted Law Firms</h2>
+                            <p>Browse our network of vetted legal professionals and select the one that best fits your needs</p>
+                        </div>
+                        
+                        <div class="filters">
+                            <h3>Filter Law Firms</h3>
+                            <div class="filter-row">
+                                <div class="filter-group">
+                                    <label for="location">Location</label>
+                                    <select id="location">
+                                        <option value="">Any Location</option>
+                                        <option value="ny">New York</option>
+                                        <option value="ca">California</option>
+                                        <option value="tx">Texas</option>
+                                        <option value="fl">Florida</option>
+                                        <option value="il">Illinois</option>
+                                    </select>
+                                </div>
+                                <div class="filter-group">
+                                    <label for="practice-area">Practice Area</label>
+                                    <select id="practice-area">
+                                        <option value="">Any Practice Area</option>
+                                        <option value="family">Family Law</option>
+                                        <option value="criminal">Criminal Defense</option>
+                                        <option value="business">Business Law</option>
+                                        <option value="realestate">Real Estate</option>
+                                        <option value="immigration">Immigration</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="filter-row">
+                                <div class="filter-group">
+                                    <label for="budget">Budget Range (per hour)</label>
+                                    <select id="budget">
+                                        <option value="">Any Budget</option>
+                                        <option value="100-200">$100 - $200</option>
+                                        <option value="200-300">$200 - $300</option>
+                                        <option value="300-500">$300 - $500</option>
+                                        <option value="500+">$500+</option>
+                                    </select>
+                                </div>
+                                <div class="filter-group">
+                                    <label for="rating">Minimum Rating</label>
+                                    <select id="rating">
+                                        <option value="">Any Rating</option>
+                                        <option value="5">5 Stars</option>
+                                        <option value="4">4+ Stars</option>
+                                        <option value="3">3+ Stars</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="law-firms-grid">
+                            <div class="law-firm-card">
+                                <div class="firm-header">
+                                    <div class="firm-avatar">S&L</div>
+                                    <div class="firm-name">Smith & Legal Associates</div>
+                                </div>
+                                <div class="firm-details">
+                                    <div class="firm-detail">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                        <span>New York, NY</span>
+                                    </div>
+                                    <div class="firm-detail">
+                                        <i class="fas fa-gavel"></i>
+                                        <span>Business Law, Contracts</span>
+                                    </div>
+                                    <div class="firm-detail">
+                                        <i class="fas fa-star"></i>
+                                        <span>4.8 (124 reviews)</span>
+                                    </div>
+                                </div>
+                                <div class="firm-price">$250 - $350 per hour</div>
+                                <button class="btn select-firm-btn" data-firm="Smith & Legal Associates">Select This Firm</button>
+                            </div>
+                            
+                            <div class="law-firm-card">
+                                <div class="firm-header">
+                                    <div class="firm-avatar">JLD</div>
+                                    <div class="firm-name">Johnson Legal Defense</div>
+                                </div>
+                                <div class="firm-details">
+                                    <div class="firm-detail">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                        <span>Los Angeles, CA</span>
+                                    </div>
+                                    <div class="firm-detail">
+                                        <i class="fas fa-gavel"></i>
+                                        <span>Criminal Defense, DUI</span>
+                                    </div>
+                                    <div class="firm-detail">
+                                        <i class="fas fa-star"></i>
+                                        <span>4.9 (98 reviews)</span>
+                                    </div>
+                                </div>
+                                <div class="firm-price">$200 - $300 per hour</div>
+                                <button class="btn select-firm-btn" data-firm="Johnson Legal Defense">Select This Firm</button>
+                            </div>
+                            
+                            <div class="law-firm-card">
+                                <div class="firm-header">
+                                    <div class="firm-avatar">FGL</div>
+                                    <div class="firm-name">Family Law Guardians</div>
+                                </div>
+                                <div class="firm-details">
+                                    <div class="firm-detail">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                        <span>Chicago, IL</span>
+                                    </div>
+                                    <div class="firm-detail">
+                                        <i class="fas fa-gavel"></i>
+                                        <span>Family Law, Divorce</span>
+                                    </div>
+                                    <div class="firm-detail">
+                                        <i class="fas fa-star"></i>
+                                        <span>4.7 (156 reviews)</span>
+                                    </div>
+                                </div>
+                                <div class="firm-price">$180 - $250 per hour</div>
+                                <button class="btn select-firm-btn" data-firm="Family Law Guardians">Select This Firm</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="pricing-section" id="pricing-section">
+                        <div class="portal-header">
+                            <h2>Upgrade Your Account</h2>
+                            <p>Choose the plan that's right for you and unlock premium features</p>
+                        </div>
+                        
+                        <div class="pricing-cards">
+                            <div class="pricing-card">
+                                <div class="current-plan-badge" id="free-badge">Current Plan</div>
+                                <div class="pricing-header">
+                                    <h3>Legalux Free</h3>
+                                    <div class="price">$0 <span>/ forever</span></div>
+                                </div>
+                                <ul class="pricing-features">
+                                    <li>Unlimited AI chat messages</li>
+                                    <li>Basic legal information</li>
+                                    <li>Community support</li>
+                                    <li class="strike">Law firm connections</li>
+                                    <li class="strike">Lawyer consultations</li>
+                                </ul>
+                                <button class="btn btn-outline" disabled>Current Plan</button>
+                            </div>
+                            
+                            <div class="pricing-card">
+                                <div class="pricing-header">
+                                    <h3>LegalUX Premium</h3>
+                                    <div class="price">$0 <span>/ month</span></div>
+                                    <small>Special introductory price</small>
+                                </div>
+                                <ul class="pricing-features">
+                                    <li>All Free features</li>
+                                    <li>Connect with trusted law firms</li>
+                                    <li>Consult with independent lawyers</li>
+                                    <li>Priority responses</li>
+                                    <li>Email support</li>
+                                </ul>
+                                <button class="btn" id="upgrade-btn">Upgrade Now</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Subscription Required Modal -->
+    <div class="modal" id="subscriptionModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeSubscriptionModal">&times;</span>
+            <div class="modal-icon error-icon">
+                <i class="fas fa-exclamation-circle"></i>
+            </div>
+            <h2>You're not subscribed :(</h2>
+            <p>Upgrade to Legalux Premium to connect with trusted legal professionals.</p>
+            <div style="margin-top: 25px;">
+                <a href="#" class="btn" id="go-to-premium-btn">Upgrade to Premium</a>
+                <a href="#" class="btn btn-outline" id="closeSubscriptionBtn">Maybe Later</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal" id="successModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeSuccessModal">&times;</span>
+            <div class="modal-icon success-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h2>Request Received!</h2>
+            <p>You will hear from a representative soon!</p>
+            <p>We've sent your information to the law firm and they will contact you within 1-2 business days to schedule a consultation.</p>
+            <div style="margin-top: 25px;">
+                <a href="#" class="btn" id="closeSuccessBtn">Continue Browsing</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Modal -->
+    <div class="modal" id="paymentModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closePaymentModal">&times;</span>
+            <div class="modal-icon info-icon">
+                <i class="fas fa-credit-card"></i>
+            </div>
+            <h2>Upgrade to Premium</h2>
+            <p>Complete your payment to unlock all premium features.</p>
+            
+            <div class="form-group" style="margin-top: 20px;">
+                <label for="card-number">Card Number</label>
+                <input type="text" id="card-number" placeholder="1234 5678 9012 3456">
+            </div>
+            
+            <div style="display: flex; gap: 15px;">
+                <div class="form-group" style="flex: 1;">
+                    <label for="expiry">Expiry Date</label>
+                    <input type="text" id="expiry" placeholder="MM/YY">
+                </div>
+                <div class="form-group" style="flex: 1;">
+                    <label for="cvc">CVC</label>
+                    <input type="text" id="cvc" placeholder="123">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="card-name">Name on Card</label>
+                <input type="text" id="card-name" placeholder="John Doe">
+            </div>
+            
+            <div style="margin-top: 25px;">
+                <button class="btn" id="complete-payment-btn">Complete Payment - $0.00</button>
+                <a href="#" class="btn btn-outline" id="cancel-payment-btn">Cancel</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // State management
+            let currentUser = null;
+            let isPremium = false;
+            
+            // DOM Elements
+            const heroSection = document.getElementById('hero-section');
+            const authSection = document.getElementById('auth-section');
+            const appContainer = document.getElementById('app-container');
+            const accountStatus = document.getElementById('account-status');
+            const loginTab = document.getElementById('login-tab');
+            const signupTab = document.getElementById('signup-tab');
+            const loginForm = document.getElementById('login-form');
+            const signupForm = document.getElementById('signup-form');
+            const loginBtn = document.getElementById('login-btn');
+            const signupBtn = document.getElementById('signup-btn');
+            const getStartedBtn = document.getElementById('get-started-btn');
+            const chatContainer = document.getElementById('chat-container');
+            const lawFirmPortal = document.getElementById('law-firm-portal');
+            const pricingSection = document.getElementById('pricing-section');
+            const subscriptionModal = document.getElementById('subscriptionModal');
+            const successModal = document.getElementById('successModal');
+            const paymentModal = document.getElementById('paymentModal');
+            const upgradeBtn = document.getElementById('upgrade-btn');
+            const freeBadge = document.getElementById('free-badge');
+            const menuChat = document.getElementById('menu-chat');
+            const menuLawFirm = document.getElementById('menu-law-firm');
+            const menuLawyer = document.getElementById('menu-lawyer');
+            const menuPremium = document.getElementById('menu-premium');
+            const menuLogout = document.getElementById('menu-logout');
+            const goToPremiumBtn = document.getElementById('go-to-premium-btn');
+            const completePaymentBtn = document.getElementById('complete-payment-btn');
+            
+            // Initialize
+            checkAuthStatus();
+            
+            // Event Listeners
+            getStartedBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                heroSection.style.display = 'none';
+                authSection.style.display = 'block';
+            });
+            
+            loginTab.addEventListener('click', function() {
+                loginTab.classList.add('active');
+                signupTab.classList.remove('active');
+                loginForm.classList.add('active');
+                signupForm.classList.remove('active');
+            });
+            
+            signupTab.addEventListener('click', function() {
+                signupTab.classList.add('active');
+                loginTab.classList.remove('active');
+                signupForm.classList.add('active');
+                loginForm.classList.remove('active');
+            });
+            
+            loginBtn.addEventListener('click', handleLogin);
+            signupBtn.addEventListener('click', handleSignup);
+            
+            menuChat.addEventListener('click', function(e) {
+                e.preventDefault();
+                showChat();
+            });
+            
+            menuLawFirm.addEventListener('click', function(e) {
+                e.preventDefault();
+                if (isPremium) {
+                    showLawFirmPortal();
+                } else {
+                    subscriptionModal.style.display = 'flex';
+                }
+            });
+            
+            menuLawyer.addEventListener('click', function(e) {
+                e.preventDefault();
+                if (isPremium) {
+                    // In a real app, this would show a lawyer portal
+                    subscriptionModal.style.display = 'flex';
+                } else {
+                    subscriptionModal.style.display = 'flex';
+                }
+            });
+            
+            menuPremium.addEventListener('click', function(e) {
+                e.preventDefault();
+                showPricing();
+            });
+            
+            menuLogout.addEventListener('click', function(e) {
+                e.preventDefault();
+                logout();
+            });
+            
+            upgradeBtn.addEventListener('click', function() {
+                paymentModal.style.display = 'flex';
+            });
+            
+            goToPremiumBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                subscriptionModal.style.display = 'none';
+                showPricing();
+            });
+            
+            completePaymentBtn.addEventListener('click', function() {
+                // Simulate payment processing
+                setTimeout(function() {
+                    isPremium = true;
+                    if (currentUser) {
+                        currentUser.isPremium = true;
+                        localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                    }
+                    paymentModal.style.display = 'none';
+                    updateUI();
+                    
+                    // Show success message
+                    const successMessage = document.createElement('div');
+                    successMessage.innerHTML = `
+                        <div style="padding: 20px; text-align: center;">
+                            <div class="modal-icon success-icon">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <h2>Payment Successful!</h2>
+                            <p>Your account has been upgraded to Legalux Premium.</p>
+                            <p>If you requested a service please try again, else, wish you the best on your case.</p>
+                            <button class="btn" style="margin-top: 20px;" onclick="this.parentElement.parentElement.style.display='none'">Continue</button>
+                        </div>
+                    `;
+                    successMessage.style.position = 'fixed';
+                    successMessage.style.top = '50%';
+                    successMessage.style.left = '50%';
+                    successMessage.style.transform = 'translate(-50%, -50%)';
+                    successMessage.style.backgroundColor = 'white';
+                    successMessage.style.borderRadius = '10px';
+                    successMessage.style.boxShadow = '0 5px 25px rgba(0, 0, 0, 0.2)';
+                    successMessage.style.zIndex = '1000';
+                    successMessage.style.maxWidth = '90%';
+                    successMessage.style.width = '400px';
+                    document.body.appendChild(successMessage);
+                }, 1000);
+            });
+            
+            // Close modal buttons
+            document.querySelectorAll('.close-modal').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    subscriptionModal.style.display = 'none';
+                    successModal.style.display = 'none';
+                    paymentModal.style.display = 'none';
+                });
+            });
+            
+            // Chat functionality
+            const chatInput = document.getElementById('chat-input');
+            const sendBtn = document.getElementById('send-btn');
+            const chatMessages = document.getElementById('chat-messages');
+            
+            sendBtn.addEventListener('click', sendMessage);
+            chatInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+            
+            // Law firm selection
+            document.querySelectorAll('.select-firm-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const firmName = this.getAttribute('data-firm');
+                    successModal.style.display = 'flex';
+                    
+                    // In a real application, you would send an email to the law firm and yourself here
+                    console.log(`Referred user ${currentUser.name} to law firm: ${firmName}`);
+                });
+            });
+            
+            // Functions
+            function checkAuthStatus() {
+                const savedUser = localStorage.getItem('currentUser');
+                if (savedUser) {
+                    currentUser = JSON.parse(savedUser);
+                    isPremium = currentUser.isPremium || false;
+                    showApp();
+                }
+            }
+            
+            function handleLogin() {
+                const email = document.getElementById('login-email').value;
+                const password = document.getElementById('login-password').value;
+                
+                if (!email || !password) {
+                    alert('Please enter both email and password');
+                    return;
+                }
+                
+                // Simulate login - in a real app, this would call an API
+                const users = JSON.parse(localStorage.getItem('users') || '[]');
+                const user = users.find(u => u.email === email && u.password === password);
+                
+                if (user) {
+                    currentUser = user;
+                    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                    isPremium = currentUser.isPremium || false;
+                    showApp();
+                } else {
+                    alert('Invalid email or password');
+                }
+            }
+            
+            function handleSignup() {
+                const name = document.getElementById('signup-name').value;
+                const email = document.getElementById('signup-email').value;
+                const password = document.getElementById('signup-password').value;
+                
+                if (!name || !email || !password) {
+                    alert('Please fill out all fields');
+                    return;
+                }
+                
+                // Simulate signup - in a real app, this would call an API
+                const users = JSON.parse(localStorage.getItem('users') || '[]');
+                
+                // Check if user already exists
+                if (users.some(u => u.email === email)) {
+                    alert('User with this email already exists');
+                    return;
+                }
+                
+                const newUser = {
+                    name,
+                    email,
+                    password,
+                    isPremium: false
+                };
+                
+                users.push(newUser);
+                localStorage.setItem('users', JSON.stringify(users));
+                
+                currentUser = newUser;
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                
+                showApp();
+            }
+            
+            function logout() {
+                currentUser = null;
+                localStorage.removeItem('currentUser');
+                heroSection.style.display = 'block';
+                authSection.style.display = 'none';
+                appContainer.style.display = 'none';
+            }
+            
+            function showApp() {
+                heroSection.style.display = 'none';
+                authSection.style.display = 'none';
+                appContainer.style.display = 'block';
+                updateUI();
+                showChat();
+            }
+            
+            function updateUI() {
+                if (isPremium) {
+                    accountStatus.innerHTML = `<i class="fas fa-user-circle"></i> Status: <span class="status-premium">Legalux Premium</span>`;
+                    freeBadge.style.display = 'none';
+                } else {
+                    accountStatus.innerHTML = `<i class="fas fa-user-circle"></i> Status: <span class="status-free">Legalux Free</span>`;
+                    freeBadge.style.display = 'block';
+                }
+            }
+            
+            function showChat() {
+                chatContainer.style.display = 'flex';
+                lawFirmPortal.style.display = 'none';
+                pricingSection.style.display = 'none';
+            }
+            
+            function showLawFirmPortal() {
+                chatContainer.style.display = 'none';
+                lawFirmPortal.style.display = 'block';
+                pricingSection.style.display = 'none';
+            }
+            
+            function showPricing() {
+                chatContainer.style.display = 'none';
+                lawFirmPortal.style.display = 'none';
+                pricingSection.style.display = 'block';
+            }
+            
+            function sendMessage() {
+                const message = chatInput.value.trim();
+                if (!message) return;
+                
+                // Add user message
+                addMessage(message, 'user');
+                
+                // Clear input
+                chatInput.value = '';
+                
+                // In a real app, this would send the message to an AI API
+                // For this demo, we'll just simulate a response after a delay
+                setTimeout(() => {
+                    addMessage("I'm a demo AI and can't respond to messages yet. In a real implementation, I would provide helpful legal information.", 'ai');
+                }, 1000);
+            }
+            
+            function addMessage(text, type) {
+                const messageElement = document.createElement('div');
+                messageElement.classList.add('message');
+                messageElement.classList.add(type + '-message');
+                messageElement.textContent = text;
+                
+                chatMessages.appendChild(messageElement);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+        });
+    </script>
+</body>
+</html>
